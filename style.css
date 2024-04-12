@@ -4,47 +4,32 @@
     align-items: center;
 }
 
+table {
+    border-collapse: collapse;
+}
+
 td {
     border: 2px;
     border-color: black;
     border-style: solid;
     font-size: 50px;
     padding: 30px;
+    text-align: center;
+    vertical-align: middle;
 }
 
-.td1 {
-    border-left: white;
-    border-top: white;
-}
-
-.td2 {
-    border-top: white;
-}
-
-.td3 {
-    border-top: white;
-    border-right: white;
-}
-
-.td4 {
+.td-left {
     border-left: white;
 }
 
-.td6 {
+.td-top {
+    border-top: white;
+}
+
+.td-right {
     border-right: white;
 }
 
-.td7 {
-    border-left: white;
+.td-bottom {
     border-bottom: white;
 }
-
-.td8 {
-    border-bottom: white;
-}
-
-.td9 {
-    border-bottom: white;
-    border-right: white;
-}
-

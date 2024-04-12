@@ -12,22 +12,30 @@
         <h1>Tic Tac Toe</h1>
         <table>
             <tr>
-                <td class="td1">　</td>
-                <td class="td2">　</td>
-                <td class="td3">　</td>
+                <td class="td-left td-top" id="1">　</td>
+                <td class="td-top" id="2">　</td>
+                <td class="td-top td-right" id="3">　</td>
             </tr>
             <tr>
-                <td class="td4">　</td>
-                <td class="td5">　</td>
-                <td class="td6">　</td>
+                <td class="td-left" id="4">　</td>
+                <td id="5">　</td>
+                <td class="td-right" id="6">　</td>
             </tr>
             <tr>
-                <td class="td7">　</td>
-                <td class="td8">　</td>
-                <td class="td9">　</td>
+                <td class="td-left td-bottom" id="7">　</td>
+                <td class="td-bottom" id="8">　</td>
+                <td class="td-bottom td-right" id="9">　</td>
             </tr>
         </table>
     </div>
+    <div class="container">
+        <div id="status">プレイヤー X の番です</div>
+        <div id="winner"></div>
+        <div id="gameBoard"></div>
+        <button onclick="startGame()">スタート</button>
+        <button onclick="resetGame()">リセット</button>
+    </div>
+    <script src="script.js"></script>
 </body>
 </html>
  
