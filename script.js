@@ -65,3 +65,38 @@ document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("resetButton").addEventListener("click", resetGame);
     startGame(); // ページがロードされると自動的にゲームを開始
 });
+
+function checkWin(player) {
+    //勝利条件：横
+    for (let i = 0; i < 3; i++) {
+        if (board[i][0] === player && board[i][1] === player && board[i][2] === player) {
+            return true;
+        }
+    }
+    //勝利条件：縦
+    for (let i = 0; i < 3; i++) {
+        if (board[0][i] === player && board[1][i] === player && board[2][i] === player) {
+            return true;
+        }
+    }
+    //勝利条件：斜め
+    if (board[0][0] === player && board[1][1] === player && board[2][2] === player) {
+        return true;
+    }
+    if (board[0][2] === player && board[1][1] === player && board[2][0] === player) {
+        return true;
+    } 
+    return false;
+}
+
+function checkDraw() {
+    //引き分け条件
+    for (let i = 0; i < 3; i++) {
+        for (let j = 0; j < 3; i++) {
+            if (board[i][j] === null) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
