@@ -19,19 +19,19 @@ td {
 }
 
 .td-left {
-    border-left: white;
+    border-left: none;
 }
 
 .td-top {
-    border-top: white;
+    border-top: none;
 }
 
 .td-right {
-    border-right: white;
+    border-right: none;
 }
 
 .td-bottom {
-    border-bottom: white;
+    border-bottom: none;
 }
 /* 現在のプレイヤーと勝者情報の表示スタイル */
 #status, #winner {
