@@ -6,10 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>三目並べ|Tic Tac Toe</title>
     <link rel="stylesheet" href="style.css">
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.3.2/dist/confetti.browser.min.js"></script>
 </head>
 <body>
-    <div class="container">
+    <!-- タイトル画面 -->
+    <div id="titleScreen" class="container">
         <h1>Tic Tac Toe</h1>
+        <button id="startButton">スタート</button>
+    </div>
+    <!-- ゲーム画面 -->
+    <div id="gameScreen" class="container" style="display: none;">
+        <!-- ゲームボードのテーブル -->
         <table>
             <tr>
                 <td class="td-left td-top" id="1">　</td>
@@ -27,10 +34,8 @@
                 <td class="td-bottom td-right" id="9">　</td>
             </tr>
         </table>
+        <!-- 現在のプレイヤー表示 -->
         <div id="status">現在のプレイヤー: ⚪︎</div>
-        <div id="winner">勝者: なし</div>
-        <button onclick="startGame()">スタート</button>
-        <button onclick="resetGame()">リセット</button>
     </div>
     <script src="script.js"></script>
 </body>
