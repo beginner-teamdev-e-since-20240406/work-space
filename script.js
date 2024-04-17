@@ -3,22 +3,22 @@ let count = 1;
 let gameActive = true;
 let confettiInterval; // 紙吹雪のアニメーションのインターバルを保持する変数を追加
 
-let playerSymbol = "⚪︎";
-let cpuSymbol = "×";
-let isPlayerTurn = null;
+let playerSymbol;
+let cpuSymbol;
+let isPlayerTurn;
 
-// CPUのターンを処理する関数
-function cpuTurn() {
-    if (!gameActive) return;
-    const emptyCells = Array.from(document.querySelectorAll("td")).filter(cell => cell.innerHTML === "　");
-    if (emptyCells.length > 0) {
-        const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-        randomCell.innerHTML = cpuSymbol;
-        count++;
-        checkForWinner();
-        isPlayerTurn = true;
-        updateStatus();
-    }
+// タイトル画面を表示する関数
+function showTitleScreen() {
+    document.getElementById("titleScreen").style.display = "block";
+    document.getElementById("gameScreen").style.display = "none";
+}
+
+
+// ゲーム画面を表示する関数
+function showGameScreen() {
+    document.getElementById("titleScreen").style.display = "none";
+    document.getElementById("gameScreen").style.display = "block";
+    startGame();
 }
 
 // 先攻後攻のスタートボタンのイベントリスナー
@@ -39,8 +39,64 @@ document.getElementById("startCPU").addEventListener("click", () => {
 
 // 現在のプレイヤーを更新する関数
 function updateStatus() {
-    const currentPlayer = isPlayerTurn ? "あなた" : "CPU";
+    const currentPlayer = isPlayerTurn ? playerSymbol : cpuSymbol;
     document.getElementById("status").textContent = `現在のプレイヤー: ${currentPlayer}`;
+}
+
+// ゲームを開始する関数
+function startGame() {
+    const cells = document.querySelectorAll("td");
+    cells.forEach(cell => {
+        cell.innerHTML = "　";
+        cell.style.backgroundColor = "";
+        cell.style.animation = "none";
+    });
+    count = 1;
+    gameActive = true;
+    isPlayerTurn = true;  // プレイヤーから開始
+    updateStatus();
+    if (!isPlayerTurn) {
+        setTimeout(cpuTurn, 500); // もしCPUが先攻なら、最初にCPUのターンを実行
+    }
+}
+
+// DOMが読み込まれた後の処理
+document.addEventListener("DOMContentLoaded", () => {
+    const cells = document.querySelectorAll("td");
+    cells.forEach(cell => {
+        cell.addEventListener("click", putCircleOrCross);
+    });
+    document.getElementById("startButton").addEventListener("click", showGameScreen);
+    showTitleScreen();
+});
+
+// セルにマークを配置する関数
+function putCircleOrCross(event) {
+    if (!gameActive || !isPlayerTurn) return;
+
+    const clickedCell = event.target;
+    if (clickedCell.innerHTML === "　") {
+        clickedCell.innerHTML = playerSymbol;
+        checkForWinner();
+        count++;
+        updateStatus();
+        isPlayerTurn = false; // プレイヤーターンを終了
+        setTimeout(cpuTurn, 500); // CPUのターンを少し遅らせて実行
+    }
+}
+
+// CPUのターンを処理する関数
+function cpuTurn() {
+    if (!gameActive) return;
+    const emptyCells = Array.from(document.querySelectorAll("td")).filter(cell => cell.innerHTML === "　");
+    if (emptyCells.length > 0) {
+        const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        randomCell.innerHTML = cpuSymbol;
+        checkForWinner();
+        count++;
+        updateStatus();
+        isPlayerTurn = true;
+    }
 }
 
 // ゲームの勝者をチェックする関数
@@ -126,10 +182,15 @@ function showWinner(winner) {
         message.style.transition = "transform 0.5s";
 
         if (winner) {
-            message.textContent = `${winner} の勝利！`;
-            confettiAnime(); // 勝利エフェクトを発火
+            if (isPlayerTurn != true) {
+                message.textContent = `おめでとう！あなたの勝ちです！`;
+                confettiAnime(); // 勝利エフェクトを発火
+            }
+            else {
+                message.textContent = `残念！負けてしまいました！`;
+            };
         } else {
-            message.textContent = "引き分け！";
+            message.textContent = "引き分けです！再挑戦を待ってます！";
         }
 
         const playAgain = document.createElement("div");
@@ -172,58 +233,3 @@ function showWinner(winner) {
         }, 50);
     }, 1000);
 }
-
-// タイトル画面を表示する関数
-function showTitleScreen() {
-    document.getElementById("titleScreen").style.display = "block";
-    document.getElementById("gameScreen").style.display = "none";
-}
-
-// ゲーム画面を表示する関数
-function showGameScreen() {
-    document.getElementById("titleScreen").style.display = "none";
-    document.getElementById("gameScreen").style.display = "block";
-    startGame();
-}
-
-// セルにマークを配置する関数
-function putCircleOrCross(event) {
-    if (!gameActive || !isPlayerTurn) return;
-
-    const clickedCell = event.target;
-    if (clickedCell.innerHTML === "　") {
-        clickedCell.innerHTML = playerSymbol;
-        count++;
-        checkForWinner();
-        isPlayerTurn = false; // プレイヤーターンを終了
-        updateStatus();
-        setTimeout(cpuTurn, 500); // CPUのターンを少し遅らせて実行
-    }
-}
-
-// ゲームを開始する関数
-function startGame() {
-    const cells = document.querySelectorAll("td");
-    cells.forEach(cell => {
-        cell.innerHTML = "　";
-        cell.style.backgroundColor = "";
-        cell.style.animation = "none";
-    });
-    count = 1;
-    gameActive = true;
-    isPlayerTurn = true;  // プレイヤーから開始
-    updateStatus();
-    if (!isPlayerTurn) {
-        setTimeout(cpuTurn, 500); // もしCPUが先攻なら、最初にCPUのターンを実行
-    }
-}
-
-// DOMが読み込まれた後の処理
-document.addEventListener("DOMContentLoaded", () => {
-    const cells = document.querySelectorAll("td");
-    cells.forEach(cell => {
-        cell.addEventListener("click", putCircleOrCross);
-    });
-    document.getElementById("startButton").addEventListener("click", showGameScreen);
-    showTitleScreen();
-});
