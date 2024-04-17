@@ -5,7 +5,7 @@ let confettiInterval; // 紙吹雪のアニメーションのインターバル�
 
 let playerSymbol = "⚪︎";
 let cpuSymbol = "×";
-let isPlayerTurn = true;
+let isPlayerTurn = null;
 
 // CPUのターンを処理する関数
 function cpuTurn() {
@@ -39,7 +39,7 @@ document.getElementById("startCPU").addEventListener("click", () => {
 
 // 現在のプレイヤーを更新する関数
 function updateStatus() {
-    const currentPlayer = isPlayerTurn ? playerSymbol : cpuSymbol;
+    const currentPlayer = isPlayerTurn ? "あなた" : "CPU";
     document.getElementById("status").textContent = `現在のプレイヤー: ${currentPlayer}`;
 }
 
@@ -195,8 +195,8 @@ function putCircleOrCross(event) {
         clickedCell.innerHTML = playerSymbol;
         count++;
         checkForWinner();
-        updateStatus();
         isPlayerTurn = false; // プレイヤーターンを終了
+        updateStatus();
         setTimeout(cpuTurn, 500); // CPUのターンを少し遅らせて実行
     }
 }
