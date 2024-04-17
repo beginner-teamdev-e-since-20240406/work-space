@@ -3,9 +3,43 @@ let count = 1;
 let gameActive = true;
 let confettiInterval; // 紙吹雪のアニメーションのインターバルを保持する変数を追加
 
+let playerSymbol = "⚪︎";
+let cpuSymbol = "×";
+let isPlayerTurn = true;
+
+// CPUのターンを処理する関数
+function cpuTurn() {
+    if (!gameActive) return;
+    const emptyCells = Array.from(document.querySelectorAll("td")).filter(cell => cell.innerHTML === "　");
+    if (emptyCells.length > 0) {
+        const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
+        randomCell.innerHTML = cpuSymbol;
+        count++;
+        checkForWinner();
+        isPlayerTurn = true;
+        updateStatus();
+    }
+}
+
+// 先攻後攻のスタートボタンのイベントリスナー
+document.getElementById("startPlayer").addEventListener("click", () => {
+    isPlayerTurn = true;
+    playerSymbol = "⚪︎";
+    cpuSymbol = "×";
+    showGameScreen();
+});
+
+document.getElementById("startCPU").addEventListener("click", () => {
+    isPlayerTurn = false;
+    playerSymbol = "×";
+    cpuSymbol = "⚪︎";
+    showGameScreen();
+    cpuTurn(); // CPUが先攻の場合はCPUから開始
+});
+
 // 現在のプレイヤーを更新する関数
 function updateStatus() {
-    const currentPlayer = count % 2 === 0 ? symbolArray[1] : symbolArray[0];
+    const currentPlayer = isPlayerTurn ? playerSymbol : cpuSymbol;
     document.getElementById("status").textContent = `現在のプレイヤー: ${currentPlayer}`;
 }
 
@@ -154,14 +188,16 @@ function showGameScreen() {
 
 // セルにマークを配置する関数
 function putCircleOrCross(event) {
-    if (!gameActive) return;
+    if (!gameActive || !isPlayerTurn) return;
 
     const clickedCell = event.target;
     if (clickedCell.innerHTML === "　") {
-        clickedCell.innerHTML = count % 2 == 0 ? symbolArray[1] : symbolArray[0];
+        clickedCell.innerHTML = playerSymbol;
         count++;
         checkForWinner();
         updateStatus();
+        isPlayerTurn = false; // プレイヤーターンを終了
+        setTimeout(cpuTurn, 500); // CPUのターンを少し遅らせて実行
     }
 }
 
@@ -175,7 +211,11 @@ function startGame() {
     });
     count = 1;
     gameActive = true;
+    isPlayerTurn = true;  // プレイヤーから開始
     updateStatus();
+    if (!isPlayerTurn) {
+        setTimeout(cpuTurn, 500); // もしCPUが先攻なら、最初にCPUのターンを実行
+    }
 }
 
 // DOMが読み込まれた後の処理
