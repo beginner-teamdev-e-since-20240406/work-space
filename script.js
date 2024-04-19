@@ -57,8 +57,6 @@ document.getElementById("startCPUWeak").addEventListener("click", () => {
     cpuTurn(); // CPUが先攻の場合はCPUから開始
 });
 
-
-
 // 現在のプレイヤーを更新する関数
 function updateStatus() {
     const currentPlayer = isPlayerTurn ? playerSymbol : cpuSymbol;
@@ -178,6 +176,30 @@ function minimax(board, depth, isMaximizing) {
         }
         return best;
     }
+}
+
+function evaluate(board) {
+    const lines = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],  // 横
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],  // 縦
+        [0, 4, 8], [2, 4, 6]             // 斜め
+    ];
+
+    for (let line of lines) {
+        const [a, b, c] = line;
+        if (board[a] !== "　" && board[a] === board[b] && board[b] === board[c]) {
+            if (board[a] === cpuSymbol) {
+                return 10;   // CPUが勝利
+            } else if (board[a] === playerSymbol) {
+                return -10;  // プレイヤーが勝利
+            }
+        }
+    }
+    return 0;  // 引き分けまたはゲーム続行
+}
+
+function isMovesLeft(board) {
+    return board.some(cell => cell === "　");  // 空のセルが存在するか
 }
 
 // ゲームの勝者をチェックする関数
