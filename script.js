@@ -1,11 +1,12 @@
-let symbolArray = ["⚪︎", "×"]
-let count = 1;
+let symbolArray = ["⚪︎", "×"];
+let count = 0;
 let gameActive = true;
-let confettiInterval; // 紙吹雪のアニメーションのインターバルを保持する変数を追加
 
 let playerSymbol;
 let cpuSymbol;
 let isPlayerTurn;
+let isCPUStrong;
+let confettiInterval; // 紙吹雪のアニメーションのインターバルを保持する変数を追加
 
 // タイトル画面を表示する関数
 function showTitleScreen() {
@@ -21,18 +22,37 @@ function showGameScreen() {
     startGame();
 }
 
-// 先攻後攻のスタートボタンのイベントリスナー
-document.getElementById("startPlayer").addEventListener("click", () => {
+// スタートボタンのイベントリスナー
+document.getElementById("startPlayerStrong").addEventListener("click", () => {
     isPlayerTurn = true;
     playerSymbol = "⚪︎";
     cpuSymbol = "×";
+    isCPUStrong = true;
     showGameScreen();
 });
 
-document.getElementById("startCPU").addEventListener("click", () => {
+document.getElementById("startCPUStrong").addEventListener("click", () => {
     isPlayerTurn = false;
     playerSymbol = "×";
     cpuSymbol = "⚪︎";
+    showGameScreen();
+    isCPUStrong = true;
+    cpuTurn(); // CPUが先攻の場合はCPUから開始
+});
+
+document.getElementById("startPlayerWeak").addEventListener("click", () => {
+    isPlayerTurn = true;
+    playerSymbol = "⚪︎";
+    cpuSymbol = "×";
+    isCPUStrong = false;
+    showGameScreen();
+});
+
+document.getElementById("startCPUWeak").addEventListener("click", () => {
+    isPlayerTurn = false;
+    playerSymbol = "×";
+    cpuSymbol = "⚪︎";
+    isCPUStrong = false;
     showGameScreen();
     cpuTurn(); // CPUが先攻の場合はCPUから開始
 });
@@ -77,26 +97,109 @@ function putCircleOrCross(event) {
     const clickedCell = event.target;
     if (clickedCell.innerHTML === "　") {
         clickedCell.innerHTML = playerSymbol;
-        checkForWinner();
-        count++;
+        isPlayerTurn = false;  // プレイヤーのターンを終了し、CPUのターンへ
         updateStatus();
-        isPlayerTurn = false; // プレイヤーターンを終了
-        setTimeout(cpuTurn, 500); // CPUのターンを少し遅らせて実行
+        
+        if (checkForWinner()) return;  // 勝者が決まったかチェック
+        count++;
+        
+        setTimeout(() => {
+            cpuTurn(isCPUStrong);  // CPUのターンを遅延実行
+        }, 500);
     }
 }
 
-// CPUのターンを処理する関数
-function cpuTurn() {
+function cpuTurn(isCPUStrong) {
     if (!gameActive) return;
-    const emptyCells = Array.from(document.querySelectorAll("td")).filter(cell => cell.innerHTML === "　");
-    if (emptyCells.length > 0) {
-        const randomCell = emptyCells[Math.floor(Math.random() * emptyCells.length)];
-        randomCell.innerHTML = cpuSymbol;
-        checkForWinner();
-        count++;
-        updateStatus();
-        isPlayerTurn = true;
+
+    let bestMove;
+    if (isCPUStrong) {
+        bestMove = findBestMove();  // 強いCPUの場合、最適な手を計算
+    } else {
+        const emptyCells = Array.from(document.querySelectorAll("td")).filter(cell => cell.innerHTML === "　");
+        bestMove = emptyCells[Math.floor(Math.random() * emptyCells.length)].id - 1;
     }
+
+    document.querySelectorAll("td")[bestMove].innerHTML = cpuSymbol;
+    isPlayerTurn = true;  // CPUのターンを終了し、プレイヤーのターンへ
+
+    if (checkForWinner()) return;  // 勝者が決まったかチェック
+    count++;
+    updateStatus();
+}
+
+// ミニマックス法に基づいて最適な手を見つける関数
+function findBestMove() {
+    let bestVal = -Infinity;
+    let bestMove = -1;
+    const board = Array.from(document.querySelectorAll("td")).map(cell => cell.innerHTML);
+
+    for (let i = 0; i < board.length; i++) {
+        if (board[i] === "　") {
+            board[i] = cpuSymbol;
+            let moveVal = minimax(board, 0, false);
+            board[i] = "　";
+            if (moveVal > bestVal) {
+                bestMove = i;
+                bestVal = moveVal;
+            }
+        }
+    }
+    return bestMove;
+}
+
+// ミニマックス法を実装する関数
+function minimax(board, depth, isMaximizing) {
+    let score = evaluate(board);
+    if (score === 10) return score - depth;
+    if (score === -10) return score + depth;
+    if (!isMovesLeft(board)) return 0;
+
+    if (isMaximizing) {
+        let best = -Infinity;
+        for (let i = 0; i < board.length; i++) {
+            if (board[i] === "　") {
+                board[i] = cpuSymbol;
+                best = Math.max(best, minimax(board, depth + 1, !isMaximizing));
+                board[i] = "　";
+            }
+        }
+        return best;
+    } else {
+        let best = Infinity;
+        for (let i = 0; i < board.length; i++) {
+            if (board[i] === "　") {
+                board[i] = playerSymbol;
+                best = Math.min(best, minimax(board, depth + 1, !isMaximizing));
+                board[i] = "　";
+            }
+        }
+        return best;
+    }
+}
+
+function evaluate(board) {
+    const lines = [
+        [0, 1, 2], [3, 4, 5], [6, 7, 8],  // 横
+        [0, 3, 6], [1, 4, 7], [2, 5, 8],  // 縦
+        [0, 4, 8], [2, 4, 6]             // 斜め
+    ];
+
+    for (let line of lines) {
+        const [a, b, c] = line;
+        if (board[a] !== "　" && board[a] === board[b] && board[b] === board[c]) {
+            if (board[a] === cpuSymbol) {
+                return 10;   // CPUが勝利
+            } else if (board[a] === playerSymbol) {
+                return -10;  // プレイヤーが勝利
+            }
+        }
+    }
+    return 0;  // 引き分けまたはゲーム続行
+}
+
+function isMovesLeft(board) {
+    return board.some(cell => cell === "　");  // 空のセルが存在するか
 }
 
 // ゲームの勝者をチェックする関数
