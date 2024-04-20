@@ -14,7 +14,6 @@ function showTitleScreen() {
     document.getElementById("gameScreen").style.display = "none";
 }
 
-
 // ゲーム画面を表示する関数
 function showGameScreen() {
     document.getElementById("titleScreen").style.display = "none";
