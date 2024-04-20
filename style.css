@@ -151,3 +151,15 @@ td:hover {
 #startButton:hover {
     background-color: #f57c00;
 }
+
+/* 勝敗メッセージのスタイルを修正 */
+.message-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.message-container button {
+    margin-top: 20px;
+}

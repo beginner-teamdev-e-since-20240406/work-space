@@ -267,12 +267,16 @@ function showWinner(winner) {
             position: fixed; top: 0; left: 0;
             width: 100%; height: 100%;
             background-color: rgba(0, 0, 0, 0.8);
-            display: flex; flexDirection: column;
+            display: flex; flex-direction: column;
             justify-content: center; align-items: center;
-            zIndex: 1000; color: #fff; textAlign: center;
+            z-index: 1000; color: #fff; text-align: center;
             opacity: 0; transition: opacity 0.5s;
             z-index: 2;
         `;
+
+        // メッセージコンテナを作成
+        const messageContainer = document.createElement("div");
+        messageContainer.classList.add("message-container");
 
         // メッセージ要素を作成し、スタイリング設定
         const message = document.createElement("div");
@@ -292,12 +296,17 @@ function showWinner(winner) {
         }
 
         // もう一度プレイするためのボタンを作成
-        const playAgain = document.createElement("div");
+        const playAgain = document.createElement("button");
         playAgain.textContent = "もう一度プレイ";
         playAgain.style = `
-            font-size: 24px; background-color: #ff9800; color: #fff;
-            padding: 10px 20px; borderRadius: 5px; cursor: pointer;
-            margin-top: 20px;  // メッセージの下に位置するようにマージントップを追加
+            display: block;
+            font-size: 24px;
+            background-color: #ff9800;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
             transition: background-color 0.3s;
             z-index: 2;
         `;
@@ -313,9 +322,12 @@ function showWinner(winner) {
             }, 500);
         });
 
-        // メッセージ要素の下にボタンを追加するため、overlayにmessage後にplayAgainを追加
-        overlay.appendChild(message);
-        overlay.appendChild(playAgain);
+        // メッセージコンテナにメッセージとボタンを追加
+        messageContainer.appendChild(message);
+        messageContainer.appendChild(playAgain);
+
+        // オーバーレイにメッセージコンテナを追加
+        overlay.appendChild(messageContainer);
         document.body.appendChild(overlay);
 
         // オーバーレイをフェードインし、メッセージを拡大
