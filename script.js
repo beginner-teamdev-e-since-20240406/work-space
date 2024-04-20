@@ -260,79 +260,67 @@ function stopConfettiAnime() {
 
 // 勝者を表示する関数
 function showWinner(winner) {
+    // 一定時間遅延後に実行
     setTimeout(() => {
+        // 画面全体を覆うオーバーレイを作成
         const overlay = document.createElement("div");
-        overlay.style.position = "fixed";
-        overlay.style.top = "0";
-        overlay.style.left = "0";
-        overlay.style.width = "100%";
-        overlay.style.height = "100%";
-        overlay.style.backgroundColor = "rgba(0, 0, 0, 0.8)";
-        overlay.style.display = "flex";
-        overlay.style.flexDirection = "column";
-        overlay.style.justifyContent = "center";
-        overlay.style.alignItems = "center";
-        overlay.style.zIndex = "1000";
-        overlay.style.color = "#fff";
-        overlay.style.textAlign = "center";
-        overlay.style.opacity = "0";
-        overlay.style.transition = "opacity 0.5s";
+        overlay.style = `
+            position: fixed; top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            display: flex; flexDirection: column;
+            justify-content: center; align-items: center;
+            zIndex: 1000; color: #fff; textAlign: center;
+            opacity: 0; transition: opacity 0.5s;
+        `;
 
+        // メッセージ要素を作成し、スタイリング設定
         const message = document.createElement("div");
-        message.style.fontSize = "48px";
-        message.style.marginBottom = "20px";
-        message.style.transform = "scale(0)";
-        message.style.transition = "transform 0.5s";
+        message.style = `
+            font-size: 48px; margin-bottom: 20px;
+            transform: scale(0); transition: transform 0.5s;
+        `;
 
+        // 勝者に応じてメッセージ内容を設定
         if (winner) {
-            if (isPlayerTurn != true) {
-                message.textContent = `おめでとう！あなたの勝ちです！`;
-                confettiAnime(); // 勝利エフェクトを発火
+            message.textContent = isPlayerTurn ? "残念！負けてしまいました！" : "おめでとう！あなたの勝ちです！";
+            if (!isPlayerTurn) {
+                confettiAnime();  // プレイヤーが勝った場合、紙吹雪アニメーションを発火
             }
-            else {
-                message.textContent = `残念！負けてしまいました！`;
-            };
         } else {
             message.textContent = "引き分けです！再挑戦を待ってます！";
         }
 
+        // もう一度プレイするためのボタンを作成
         const playAgain = document.createElement("div");
         playAgain.textContent = "もう一度プレイ";
-        playAgain.style.fontSize = "24px";
-        playAgain.style.backgroundColor = "#ff9800";
-        playAgain.style.color = "#fff";
-        playAgain.style.padding = "10px 20px";
-        playAgain.style.borderRadius = "5px";
-        playAgain.style.cursor = "pointer";
-        playAgain.style.transition = "background-color 0.3s";
-
-        playAgain.addEventListener("mouseover", () => {
-            playAgain.style.backgroundColor = "#f57c00";
-        });
-
-        playAgain.addEventListener("mouseout", () => {
-            playAgain.style.backgroundColor = "#ff9800";
-        });
-
+        playAgain.style = `
+            font-size: 24px; background-color: #ff9800; color: #fff;
+            padding: 10px 20px; borderRadius: 5px; cursor: pointer;
+            margin-top: 20px;  // メッセージの下に位置するようにマージントップを追加
+            transition: background-color 0.3s;
+        `;
+        playAgain.addEventListener("mouseover", () => playAgain.style.backgroundColor = "#f57c00");
+        playAgain.addEventListener("mouseout", () => playAgain.style.backgroundColor = "#ff9800");
         playAgain.addEventListener("click", () => {
             overlay.style.opacity = "0";
             message.style.transform = "scale(0)";
-            stopConfettiAnime(); // 紙吹雪のアニメーションを即座に止める
+            stopConfettiAnime();  // 紙吹雪アニメーションを停止
             setTimeout(() => {
                 overlay.remove();
-                showTitleScreen();
+                showTitleScreen();  // タイトル画面に戻る
             }, 500);
         });
 
+        // メッセージ要素の下にボタンを追加するため、overlayにmessage後にplayAgainを追加
         overlay.appendChild(message);
         overlay.appendChild(playAgain);
         document.body.appendChild(overlay);
 
+        // オーバーレイをフェードインし、メッセージを拡大
         setTimeout(() => {
             overlay.style.opacity = "1";
-            setTimeout(() => {
-                message.style.transform = "scale(1)";
-            }, 500);
+            setTimeout(() => message.style.transform = "scale(1)", 500);
         }, 50);
-    }, 1000);
+    }, 1000); // アニメーションやゲームロジックが落ち着くのを待つための遅延
 }
