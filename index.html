@@ -12,7 +12,22 @@
     <!-- タイトル画面 -->
     <div id="titleScreen" class="container">
         <h1>Tic Tac Toe</h1>
-        <button id="startButton">スタート</button>
+        <h2>〜三目並べ〜</h2>
+        <p>ゲームスタート！</p>
+        <div class="strongMode">
+            <strong>vsつよつよモード</strong>
+            <div class="choices">
+                <button id="startPlayerStrong">先攻</button>
+                <button id="startCPUStrong">後攻</button>
+            </div>
+        </div>
+        <div class="weakMode">
+            <strong>vsよわよわモード</strong>
+            <div class="choices">
+                <button id="startPlayerWeak">先攻</button>
+                <button id="startCPUWeak">後攻</button>
+            </div>
+        </div>
     </div>
     <!-- ゲーム画面 -->
     <div id="gameScreen" class="container" style="display: none;">
