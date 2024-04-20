@@ -14,7 +14,6 @@ function showTitleScreen() {
     document.getElementById("gameScreen").style.display = "none";
 }
 
-
 // ゲーム画面を表示する関数
 function showGameScreen() {
     document.getElementById("titleScreen").style.display = "none";
@@ -272,6 +271,7 @@ function showWinner(winner) {
             justify-content: center; align-items: center;
             zIndex: 1000; color: #fff; textAlign: center;
             opacity: 0; transition: opacity 0.5s;
+            z-index: 2;
         `;
 
         // メッセージ要素を作成し、スタイリング設定
@@ -299,6 +299,7 @@ function showWinner(winner) {
             padding: 10px 20px; borderRadius: 5px; cursor: pointer;
             margin-top: 20px;  // メッセージの下に位置するようにマージントップを追加
             transition: background-color 0.3s;
+            z-index: 2;
         `;
         playAgain.addEventListener("mouseover", () => playAgain.style.backgroundColor = "#f57c00");
         playAgain.addEventListener("mouseout", () => playAgain.style.backgroundColor = "#ff9800");
