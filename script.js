@@ -14,7 +14,6 @@ function showTitleScreen() {
     document.getElementById("gameScreen").style.display = "none";
 }
 
-
 // ゲーム画面を表示する関数
 function showGameScreen() {
     document.getElementById("titleScreen").style.display = "none";
@@ -272,7 +271,12 @@ function showWinner(winner) {
             justify-content: center; align-items: center;
             z-index: 1000; color: #fff; text-align: center;
             opacity: 0; transition: opacity 0.5s;
+            z-index: 2;
         `;
+
+        // メッセージコンテナを作成
+        const messageContainer = document.createElement("div");
+        messageContainer.classList.add("message-container");
 
         // メッセージ要素を作成し、スタイリング設定
         const message = document.createElement("div");
@@ -295,10 +299,16 @@ function showWinner(winner) {
         const playAgain = document.createElement("button");
         playAgain.textContent = "もう一度プレイ";
         playAgain.style = `
-            font-size: 24px; background-color: #ff9800; color: #fff;
-            padding: 10px 20px; border-radius: 5px; cursor: pointer;
-            border: none; margin-top: 20px;
+            display: block;
+            font-size: 24px;
+            background-color: #ff9800;
+            color: #fff;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            border: none;
             transition: background-color 0.3s;
+            z-index: 2;
         `;
         playAgain.addEventListener("mouseover", () => playAgain.style.backgroundColor = "#f57c00");
         playAgain.addEventListener("mouseout", () => playAgain.style.backgroundColor = "#ff9800");
@@ -312,9 +322,12 @@ function showWinner(winner) {
             }, 500);
         });
 
-        // オーバーレイにメッセージとボタンを追加
-        overlay.appendChild(message);
-        overlay.appendChild(playAgain);
+        // メッセージコンテナにメッセージとボタンを追加
+        messageContainer.appendChild(message);
+        messageContainer.appendChild(playAgain);
+
+        // オーバーレイにメッセージコンテナを追加
+        overlay.appendChild(messageContainer);
         document.body.appendChild(overlay);
 
         // オーバーレイをフェードインし、メッセージを拡大
