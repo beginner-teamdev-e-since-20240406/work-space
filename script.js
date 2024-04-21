@@ -381,13 +381,6 @@ function createBackgroundAnimation() {
     }
 }
 
-window.onload = function() {
-    var elements = document.getElementsByClassName('backscreen-row');
-    for (var i = 0; i < elements.length; i++) {
-        console.log('Element ' + i + ' width: ' + elements[i].offsetWidth + 'px');
-    }
-};
-
 // DOMが読み込まれた後の処理
 document.addEventListener("DOMContentLoaded", () => {
     // 他の処理...
