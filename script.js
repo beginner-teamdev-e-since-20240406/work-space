@@ -8,6 +8,20 @@ let isPlayerTurn;
 let isCPUStrong;
 let confettiInterval; // 紙吹雪のアニメーションのインターバルを保持する変数を追加
 
+// 背景のアニメーションを複製する処理
+document.addEventListener('DOMContentLoaded', function() {
+    duplicateRows(5);
+});
+
+function duplicateRows(number) {
+    const container = document.getElementById('backscreen-row');
+    const unit = document.querySelector('.backscreen-unit').cloneNode(true);
+
+    for (let i = 0; i < number; i++) {
+        container.appendChild(unit.cloneNode(true));
+    }
+}
+
 // タイトル画面を表示する関数
 function showTitleScreen() {
     document.getElementById("titleScreen").style.display = "block";

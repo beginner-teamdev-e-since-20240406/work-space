@@ -1,4 +1,4 @@
-body:not(.backscreen-row) {
+body:not(#backscreen-row) {
     font-family: Arial, sans-serif;
     background-color: #360808;
     margin: 0;
@@ -12,7 +12,7 @@ body:not(.backscreen-row) {
     align-items: center;
 }
 
-body .backscreen-row {
+body #backscreen-row {
     display: flex;
     white-space: nowrap;
     font-size: 100px;
@@ -36,7 +36,7 @@ i:hover {
     text-shadow: 0 0 120px #c65af1;
 }
 
-.backscreen-row div {
+#backscreen-row div {
     animation: animate 10s linear infinite;
 }
 
