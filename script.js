@@ -342,8 +342,8 @@ function showWinner(winner) {
 function createBackgroundAnimation() {
     const backgroundAnimation = document.getElementById('background-animation');
     const symbols = ['<i class="fa-regular fa-circle"></i>', '<i class="fa-solid fa-xmark"></i>'];
-    const rows = 12;
-    const cols = 28;
+    const rows = 20;
+    const cols = 50;
 
     for (let i = 0; i < rows; i++) {
         const row = document.createElement('div');

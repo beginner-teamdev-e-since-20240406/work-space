@@ -27,7 +27,7 @@ i {
     color: rgba(0, 0, 0, 0.5);
     padding: 0 5px;
     user-select: none;
-    transition: 1s;
+    transition: 1s; そっか
 }
   
 i:hover {
