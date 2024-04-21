@@ -337,3 +337,33 @@ function showWinner(winner) {
         }, 50);
     }, 1000); // アニメーションやゲームロジックが落ち着くのを待つための遅延
 }
+
+// OX背景アニメーションの生成
+function createBackgroundAnimation() {
+    const backgroundAnimation = document.getElementById('background-animation');
+    const symbols = ['<i class="fa-regular fa-circle"></i>', '<i class="fa-solid fa-xmark"></i>'];
+    const rows = 20;
+    const cols = 50;
+
+    for (let i = 0; i < rows; i++) {
+        const row = document.createElement('div');
+        row.className = 'backscreen-row';
+        
+        const unit = document.createElement('div');
+        unit.className = 'backscreen-unit';
+
+        for (let j = 0; j < cols; j++) {
+            unit.innerHTML += symbols[j % 2];
+        }
+
+        row.appendChild(unit);
+        backgroundAnimation.appendChild(row);
+    }
+}
+
+// DOMが読み込まれた後の処理
+document.addEventListener("DOMContentLoaded", () => {
+    // 他の処理...
+
+    createBackgroundAnimation(); // 背景アニメーションの生成を呼び出す
+});
