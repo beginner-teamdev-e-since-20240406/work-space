@@ -289,10 +289,19 @@ function showWinner(winner) {
         if (winner) {
             message.textContent = isPlayerTurn ? "残念！負けてしまいました！" : "おめでとう！あなたの勝ちです！";
             if (!isPlayerTurn) {
+                const victorySound = document.getElementById("victorySound");
+                victorySound.loop = true; // 繰り返し再生するように設定
+                victorySound.play(); // 勝利時の音を再生
                 confettiAnime();  // プレイヤーが勝った場合、紙吹雪アニメーションを発火
+            }
+            else {
+                const defeatSound = document.getElementById("defeatSound");
+                defeatSound.play();
             }
         } else {
             message.textContent = "引き分けです！再挑戦を待ってます！";
+            const drawSound = document.getElementById("drawSound");
+            drawSound.play(); // 勝利時の音を再生
         }
 
         // もう一度プレイするためのボタンを作成
@@ -313,6 +322,17 @@ function showWinner(winner) {
         playAgain.addEventListener("mouseover", () => playAgain.style.backgroundColor = "#f57c00");
         playAgain.addEventListener("mouseout", () => playAgain.style.backgroundColor = "#ff9800");
         playAgain.addEventListener("click", () => {
+            const victorySound = document.getElementById("victorySound");
+            const defeatSound = document.getElementById("defeatSound");
+            const drawSound = document.getElementById("drawSound")
+
+            victorySound.pause(); // 勝利時の音を停止
+            victorySound.currentTime = 0; // 音源の再生位置を先頭に戻す
+            defeatSound.pause(); //負けた時の音を停止
+            defeatSound.currentTime =0; // 音源の再生位置を先頭に戻す
+            drawSound.pause(); //引き分けの音を停止
+            drawSound.currentTime =0; // 音源の再生位置を先頭に戻す
+
             overlay.style.opacity = "0";
             message.style.transform = "scale(0)";
             stopConfettiAnime();  // 紙吹雪アニメーションを停止
