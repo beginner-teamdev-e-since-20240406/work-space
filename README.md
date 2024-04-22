@@ -40,8 +40,10 @@
 
 ## 開発者
 
-- []
+- [alidha2024](https://github.com/alidha2024 "alidha2024")
+- [genie-ru](https://github.com/genie-ru "Genie")
+- [meb4427](https://github.com/meb4427 "meb4427")
 
 ## ライセンス
 
-このプロジェクトは [MIT ライセンス](LICENSE) の下で公開されています。
+このプロジェクトは [MIT ライセンス](https://licenses.opensource.jp/MIT/MIT.html "The MIT License") の下で公開されています。
