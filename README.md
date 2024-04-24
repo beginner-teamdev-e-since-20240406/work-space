@@ -3,18 +3,17 @@
 このリポジトリは、HTML、CSS、JavaScriptを使用して実装された三目並べゲームです。プレイヤーはCPUと対戦することができ、先攻・後攻を選択できます。また、CPUの強さも選択可能で、つよつよモードとよわよわモードがあります。
 
 ## デモ動画
-![demo-movie.gif]( https://raw.github.com/wiki/beginner-teamdev-e-since-20240406/work-space/images/demo-movie.gif)
+![demo-movie.gif](https://github.com/beginner-teamdev-e-since-20240406/work-space/blob/develop/GIF/demo-movie.gif)
 
 ## 遊び方
 
 1. [Tic Tac Toe](https://team-e-202404.vercel.app/ "Tic Tac Toe")にアクセスします。
-2. `index.html`をブラウザで開きます。
-3. タイトル画面でゲームモードを選択します。
+2. タイトル画面でゲームモードを選択します。
    - vsつよつよモード: 強いCPUと対戦します。先攻・後攻を選択できます。
    - vsよわよわモード: 弱いCPUと対戦します。先攻・後攻を選択できます。
-4. ゲーム画面でマス目をクリックしてマークを配置します。
-5. 勝利条件を満たすと、勝者が表示されます。
-6. 「もう一度プレイ」ボタンをクリックして、再度ゲームを開始できます。
+3. ゲーム画面でマス目をクリックしてマークを配置します。
+4. 勝利条件を満たすと、勝者が表示されます。
+5. 「もう一度プレイ」ボタンをクリックして、再度ゲームを開始できます。
 
 ## 特徴
 
