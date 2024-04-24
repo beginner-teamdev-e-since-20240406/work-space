@@ -7,7 +7,7 @@
 
 ## 遊び方
 
-1. [アプリケーションリンク](https://team-e-202404.vercel.app/ "Tic Tac Toe")にアクセスします。
+1. [Tic Tac Toe](https://team-e-202404.vercel.app/ "Tic Tac Toe")にアクセスします。
 2. `index.html`をブラウザで開きます。
 3. タイトル画面でゲームモードを選択します。
    - vsつよつよモード: 強いCPUと対戦します。先攻・後攻を選択できます。
