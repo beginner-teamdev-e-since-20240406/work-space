@@ -4,7 +4,7 @@
 
 ## リンクとデモ
 [アプリケーションリンク](https://team-e-202404.vercel.app/ "Tic Tac Toe")  
-![demo]( https://raw.github.com/wiki/beginner-teamdev-e-since-20240406/work-space/images/demo-movie.gif)
+![demo-movie.gif]( https://raw.github.com/wiki/beginner-teamdev-e-since-20240406/work-space/images/demo-movie.gif)
 
 ## 遊び方
 
